@@ -27,8 +27,13 @@ dependencies {
     shadow(project(path = ":mod", configuration = "transformProductionNeoForge")) {
         isTransitive = false
     }
-    shadow(project(path = ":core")) { isTransitive = false }
+    shadow(projects.core) { isTransitive = false }
 
+    // Let's shade in our own api
+    shadow(projects.api) { isTransitive = false }
+    shadow(projects.common) { isTransitive = false }
+
+    // Include all transitive deps of core via JiJ
     includeTransitive(projects.core)
 }
 
