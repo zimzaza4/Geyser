@@ -216,6 +216,8 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
                 this.identifier(identifier);
             } else if (this.identifier != null && type == null) {
                 identifier = this.identifier.identifier();
+            } else if (this.identifier != null) {
+                identifier = "minecraft:" + type.name().toLowerCase(Locale.ROOT);
             }
 
             GeyserEntityDefinition<T> definition = new GeyserEntityDefinition<>(factory, type, this.identifier, width, height, offset, translators, custom);
