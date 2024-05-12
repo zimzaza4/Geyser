@@ -26,9 +26,9 @@
 package org.geysermc.geyser.registry.populator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
-import com.github.steveice10.mc.protocol.data.game.recipe.Ingredient;
-import com.github.steveice10.mc.protocol.data.game.recipe.RecipeType;
+import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.Ingredient;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.RecipeType;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -48,7 +48,7 @@ import org.geysermc.geyser.registry.Registries;
 import org.geysermc.geyser.registry.type.ItemMapping;
 import org.geysermc.geyser.registry.type.ItemMappings;
 import org.geysermc.geyser.text.GeyserLocale;
-import org.geysermc.geyser.translator.inventory.item.ItemTranslator;
+import org.geysermc.geyser.translator.item.ItemTranslator;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -130,7 +130,7 @@ public class RecipeRegistryPopulator {
         int netId = ++LAST_RECIPE_NET_ID;
         int type = node.get("bedrockRecipeType").asInt();
         JsonNode outputNode = node.get("output");
-        ItemMapping outputEntry = mappings.getMapping(outputNode.get("identifier").asText());
+        ItemMapping outputEntry = mappings.getMapping(outputNode.get("entityIdentifier").asText());
         ItemData output = getBedrockItemFromIdentifierJson(outputEntry, outputNode);
         UUID uuid = UUID.randomUUID();
         if (type == 1) {
@@ -147,7 +147,7 @@ public class RecipeRegistryPopulator {
             while (iterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = iterator.next();
                 JsonNode inputNode = entry.getValue();
-                ItemMapping inputEntry = mappings.getMapping(inputNode.get("identifier").asText());
+                ItemMapping inputEntry = mappings.getMapping(inputNode.get("entityIdentifier").asText());
                 letterToRecipe.put(entry.getKey(), getBedrockItemFromIdentifierJson(inputEntry, inputNode));
             }
 
@@ -177,7 +177,7 @@ public class RecipeRegistryPopulator {
         }
         List<ItemData> inputs = new ObjectArrayList<>();
         for (JsonNode entry : node.get("inputs")) {
-            ItemMapping inputEntry = mappings.getMapping(entry.get("identifier").asText());
+            ItemMapping inputEntry = mappings.getMapping(entry.get("entityIdentifier").asText());
             inputs.add(getBedrockItemFromIdentifierJson(inputEntry, entry));
         }
 

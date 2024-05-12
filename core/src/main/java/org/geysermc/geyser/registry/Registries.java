@@ -25,12 +25,12 @@
 
 package org.geysermc.geyser.registry;
 
-import com.github.steveice10.mc.protocol.data.game.entity.type.EntityType;
-import com.github.steveice10.mc.protocol.data.game.level.block.BlockEntityType;
-import com.github.steveice10.mc.protocol.data.game.level.event.LevelEvent;
-import com.github.steveice10.mc.protocol.data.game.level.particle.ParticleType;
-import com.github.steveice10.mc.protocol.data.game.recipe.RecipeType;
-import com.github.steveice10.packetlib.packet.Packet;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
+import org.geysermc.mcprotocollib.protocol.data.game.level.block.BlockEntityType;
+import org.geysermc.mcprotocollib.protocol.data.game.level.event.LevelEvent;
+import org.geysermc.mcprotocollib.protocol.data.game.level.particle.ParticleType;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.RecipeType;
+import org.geysermc.mcprotocollib.network.packet.Packet;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -74,13 +74,7 @@ import org.geysermc.geyser.translator.sound.SoundInteractionTranslator;
 import org.geysermc.geyser.translator.sound.SoundTranslator;
 import org.geysermc.geyser.util.EntityUtils;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.IdentityHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -109,12 +103,12 @@ public final class Registries {
     public static final SimpleRegistry<NbtMap> BIOMES_NBT = SimpleRegistry.create("bedrock/biome_definitions.dat", RegistryLoaders.NBT);
 
     /**
-     * A mapped registry which stores Java biome identifiers and their Bedrock biome identifier.
+     * A mapped registry which stores Java biome identifiers and their Bedrock biome entityIdentifier.
      */
     public static final SimpleRegistry<Object2IntMap<String>> BIOME_IDENTIFIERS = SimpleRegistry.create("mappings/biomes.json", BiomeIdentifierRegistryLoader::new);
 
     /**
-     * A mapped registry which stores a block entity identifier to its {@link BlockEntityTranslator}.
+     * A mapped registry which stores a block entity entityIdentifier to its {@link BlockEntityTranslator}.
      */
     public static final SimpleMappedRegistry<BlockEntityType, BlockEntityTranslator> BLOCK_ENTITIES = SimpleMappedRegistry.create("org.geysermc.geyser.translator.level.block.entity.BlockEntity", BlockEntityRegistryLoader::new);
 
@@ -132,6 +126,11 @@ public final class Registries {
      * A map containing all entity types and their respective Geyser definitions
      */
     public static final SimpleMappedRegistry<EntityType, GeyserEntityDefinition<?>> ENTITY_DEFINITIONS = SimpleMappedRegistry.create(RegistryLoaders.empty(() -> new EnumMap<>(EntityType.class)));
+
+    /**
+     * A registry holding a list of all the known entity properties to be sent to the client after start game.
+     */
+    public static final SimpleRegistry<Set<NbtMap>> BEDROCK_ENTITY_PROPERTIES = SimpleRegistry.create(RegistryLoaders.empty(HashSet::new));
 
     /**
      * A map containing all entity identifiers and their respective Geyser definitions

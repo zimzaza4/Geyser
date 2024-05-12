@@ -46,7 +46,7 @@ public abstract class GeyserDefineCustomItemsEventImpl implements GeyserDefineCu
     }
 
     /**
-     * Gets a multimap of all the already registered custom items indexed by the item's extended java item's identifier.
+     * Gets a multimap of all the already registered custom items indexed by the item's extended java item's entityIdentifier.
      *
      * @return a multimap of all the already registered custom items
      */

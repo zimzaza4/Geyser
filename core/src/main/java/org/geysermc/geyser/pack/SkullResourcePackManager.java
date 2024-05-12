@@ -48,7 +48,9 @@ import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -237,7 +239,7 @@ public class SkullResourcePackManager {
     }
 
     private static String fillAttachableJson(String template, CustomSkull skull) {
-        return template.replace("${identifier}", skull.getCustomBlockData().identifier())
+        return template.replace("${entityIdentifier}", skull.getCustomBlockData().identifier())
                 .replace("${texture}", truncateHash(skull.getSkinHash()));
     }
 

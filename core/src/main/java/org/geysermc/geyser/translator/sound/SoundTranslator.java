@@ -36,7 +36,7 @@ import java.lang.annotation.RetentionPolicy;
 public @interface SoundTranslator {
 
     /**
-     * The identifier(s) that the placed block must contain
+     * The entityIdentifier(s) that the placed block must contain
      * one of. Leave empty to ignore.
      * <p>
      * Only applies to interaction handlers that are an
@@ -47,7 +47,7 @@ public @interface SoundTranslator {
     String[] blocks() default {};
 
     /**
-     * The identifier(s) that the player's hand item
+     * The entityIdentifier(s) that the player's hand item
      * must contain one of. Leave empty to ignore.
      *
      * @return the value the item in the player's hand must contain

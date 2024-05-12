@@ -37,7 +37,7 @@ import java.util.Map;
  * 
  * @param data The custom block data
  * @param states The custom block state mappings
- * @param javaIdentifier The java identifier of the block
+ * @param javaIdentifier The java entityIdentifier of the block
  * @param overrideItem Whether the custom block should override the java item
  */
 public record CustomBlockMapping(@NonNull CustomBlockData data, @NonNull Map<String, CustomBlockStateMapping> states, @NonNull String javaIdentifier, boolean overrideItem) {

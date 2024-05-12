@@ -25,9 +25,9 @@
 
 package org.geysermc.geyser.entity;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.EntityMetadata;
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.MetadataType;
-import com.github.steveice10.mc.protocol.data.game.entity.type.EntityType;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.EntityMetadata;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.metadata.MetadataType;
+import org.geysermc.mcprotocollib.protocol.data.game.entity.type.EntityType;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -37,6 +37,7 @@ import org.geysermc.geyser.GeyserImpl;
 import org.geysermc.geyser.api.entity.EntityDefinition;
 import org.geysermc.geyser.api.entity.EntityIdentifier;
 import org.geysermc.geyser.entity.factory.EntityFactory;
+import org.geysermc.geyser.entity.properties.GeyserEntityProperties;
 import org.geysermc.geyser.entity.type.Entity;
 import org.geysermc.geyser.registry.Registries;
 import org.geysermc.geyser.translator.entity.EntityMetadataTranslator;
@@ -56,10 +57,10 @@ import java.util.function.BiConsumer;
  * @param <T> the entity type this definition represents
  */
 public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory, EntityType entityType, EntityIdentifier entityIdentifier,
-                                                       float width, float height, float offset, List<EntityMetadataTranslator<? super T, ?, ?>> translators, boolean custom) implements EntityDefinition {
+                                                       float width, float height, float offset, GeyserEntityProperties registeredProperties, List<EntityMetadataTranslator<? super T, ?, ?>> translators, boolean custom) implements EntityDefinition {
 
     public static <T extends Entity> EntityDefinitionBuilder<T> inherited(EntityFactory<T> factory, GeyserEntityDefinition<? super T> parent) {
-        return new EntityDefinitionBuilder<>(factory, parent.entityType, parent.entityIdentifier, parent.width, parent.height, parent.offset, new ObjectArrayList<>(parent.translators));
+        return new EntityDefinitionBuilder<>(factory, parent.entityType, parent.entityIdentifier, parent.width, parent.height, parent.offset, parent.registeredProperties, new ObjectArrayList<>(parent.translators));
     }
 
     public static <T extends Entity> EntityDefinitionBuilder<T> builder(EntityFactory<T> factory) {
@@ -106,6 +107,7 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
         private float width;
         private float height;
         private float offset = 0.00001f;
+        private GeyserEntityProperties registeredProperties;
         private final List<EntityMetadataTranslator<? super T, ?, ?>> translators;
         private final boolean custom;
 
@@ -130,13 +132,14 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
             this.custom = custom;
         }
 
-        public EntityDefinitionBuilder(EntityFactory<T> factory, EntityType type, EntityIdentifier identifier, float width, float height, float offset, List<EntityMetadataTranslator<? super T, ?, ?>> translators) {
+        public EntityDefinitionBuilder(EntityFactory<T> factory, EntityType type, EntityIdentifier identifier, float width, float height, float offset, GeyserEntityProperties registeredProperties, List<EntityMetadataTranslator<? super T, ?, ?>> translators) {
             this.factory = factory;
             this.type = type;
             this.identifier = identifier;
             this.width = width;
             this.height = height;
             this.offset = offset;
+            this.registeredProperties = registeredProperties;
             this.translators = translators;
             this.custom = false;
         }
@@ -152,7 +155,7 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
             List<NbtMap> idlist = nbt.getList("idlist", NbtType.COMPOUND);
             Optional<NbtMap> entityIdentifier = idlist.stream().filter(tag -> tag.getString("id").equals(identifier)).findFirst();
 
-            // Create a fake entity identifier for entities which are
+            // Create a fake entity entityIdentifier for entities which are
             // in Java but may not be in Bedrock (e.g. item frames).
             if (entityIdentifier.isEmpty()) {
                 this.identifier = new GeyserEntityIdentifier(NbtMap.builder()
@@ -183,11 +186,16 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
         }
 
         /**
-         * Resets the identifier as well
+         * Resets the entityIdentifier as well
          */
         public EntityDefinitionBuilder<T> type(EntityType type) {
             this.type = type;
             identifier = null;
+            return this;
+        }
+
+        public EntityDefinitionBuilder<T> properties(GeyserEntityProperties registeredProperties) {
+            this.registeredProperties = registeredProperties;
             return this;
         }
 
@@ -201,7 +209,7 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
             return this;
         }
 
-        public GeyserEntityDefinition<T> build() {
+        public GeyserEntityDefinition build() {
             return build(true);
         }
 
@@ -220,9 +228,12 @@ public record GeyserEntityDefinition<T extends Entity>(EntityFactory<T> factory,
                 identifier = "minecraft:" + type.name().toLowerCase(Locale.ROOT);
             }
 
-            GeyserEntityDefinition<T> definition = new GeyserEntityDefinition<>(factory, type, this.identifier, width, height, offset, translators, custom);
+            GeyserEntityDefinition<T> definition = new GeyserEntityDefinition<>(factory, type, this.identifier, width, height, offset, registeredProperties, translators, custom);
             if (register && identifier != null) {
                 EntityUtils.registerEntity(identifier, definition);
+                if (definition.registeredProperties() != null) {
+                    Registries.BEDROCK_ENTITY_PROPERTIES.get().add(definition.registeredProperties().toNbtMap(identifier));
+                }
             }
 
             return definition;

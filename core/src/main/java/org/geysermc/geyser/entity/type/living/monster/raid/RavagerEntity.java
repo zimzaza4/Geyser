@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2019-2024 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,38 +23,32 @@
  * @link https://github.com/GeyserMC/Geyser
  */
 
-package org.geysermc.geyser.entity.type;
+package org.geysermc.geyser.entity.type.living.monster.raid;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.type.IntEntityMetadata;
 import org.cloudburstmc.math.vector.Vector3f;
-import org.cloudburstmc.protocol.bedrock.data.entity.EntityDataTypes;
+import org.cloudburstmc.protocol.bedrock.data.entity.EntityFlag;
 import org.geysermc.geyser.entity.GeyserEntityDefinition;
-import org.geysermc.geyser.inventory.item.TippedArrowPotion;
 import org.geysermc.geyser.session.GeyserSession;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Internally this is known as TippedArrowEntity but is used with tipped arrows and normal arrows
- */
-public class TippedArrowEntity extends AbstractArrowEntity {
+public class RavagerEntity extends RaidParticipantEntity {
 
-    public TippedArrowEntity(GeyserSession session, int entityId, long geyserId, UUID uuid, GeyserEntityDefinition<?> definition, Vector3f position, Vector3f motion, float yaw, float pitch, float headYaw) {
+    public RavagerEntity(GeyserSession session, int entityId, long geyserId, UUID uuid, GeyserEntityDefinition<?> definition, Vector3f position, Vector3f motion, float yaw, float pitch, float headYaw) {
         super(session, entityId, geyserId, uuid, definition, position, motion, yaw, pitch, headYaw);
     }
 
-    public void setPotionEffectColor(IntEntityMetadata entityMetadata) {
-        int potionColor = entityMetadata.getPrimitiveValue();
-        // -1 means no color
-        if (potionColor == -1) {
-            dirtyMetadata.put(EntityDataTypes.CUSTOM_DISPLAY, (byte) 0);
-        } else {
-            TippedArrowPotion potion = TippedArrowPotion.getByJavaColor(potionColor);
-            if (potion != null && potion.getJavaColor() != -1) {
-                dirtyMetadata.put(EntityDataTypes.CUSTOM_DISPLAY, (byte) potion.getBedrockId());
-            } else {
-                dirtyMetadata.put(EntityDataTypes.CUSTOM_DISPLAY, (byte) 0);
-            }
-        }
+    @Override
+    public boolean useArmSwingAttack() {
+        setFlag(EntityFlag.DELAYED_ATTACK, false);
+        updateBedrockMetadata();
+
+        session.scheduleInEventLoop(() -> {
+            setFlag(EntityFlag.DELAYED_ATTACK, true);
+            updateBedrockMetadata();
+        }, 75, TimeUnit.MILLISECONDS);
+
+        return true;
     }
 }

@@ -159,7 +159,6 @@ public class ItemRegistryPopulator {
             Object2ObjectMap<CustomBlockData, ItemDefinition> customBlockItemDefinitions = new Object2ObjectOpenHashMap<>();
 
             List<ItemDefinition> buckets = new ObjectArrayList<>();
-            List<ItemData> carpets = new ObjectArrayList<>();
 
             List<ItemMapping> mappings = new ObjectArrayList<>();
             // Temporary mapping to create stored items
@@ -251,7 +250,7 @@ public class ItemRegistryPopulator {
                         // Straight from BDS is our best chance of getting an item that doesn't run into issues
                         bedrockBlock = blockOverride;
                     } else {
-                        // Try to get an example block runtime ID from the creative contents packet, for Bedrock identifier obtaining
+                        // Try to get an example block runtime ID from the creative contents packet, for Bedrock entityIdentifier obtaining
                         int aValidBedrockBlockId = blacklistedIdentifiers.getOrDefault(bedrockIdentifier, customBlockItemOverride != null ? customBlockItemOverride.getRuntimeId() : -1);
                         if (aValidBedrockBlockId == -1 && customBlockItemOverride == null) {
                             // Fallback
@@ -458,14 +457,6 @@ public class ItemRegistryPopulator {
 
                 if (javaItem.javaIdentifier().contains("bucket") && !javaItem.javaIdentifier().contains("milk")) {
                     buckets.add(definition);
-                } else if (javaItem.javaIdentifier().contains("_carpet") && !javaItem.javaIdentifier().contains("moss")) {
-                    // This should be the numerical order Java sends as an integer value for llamas
-                    carpets.add(ItemData.builder()
-                            .definition(definition)
-                            .damage(mapping.getBedrockData())
-                            .count(1)
-                            .blockDefinition(mapping.getBedrockBlockDefinition())
-                            .build());
                 } else if (javaItem.javaIdentifier().startsWith("minecraft:music_disc_")) {
                     // The Java record level event uses the item ID as the "key" to play the record
                     Registries.RECORDS.register(javaItem.javaId(), SoundEvent.valueOf("RECORD_" +
@@ -589,7 +580,6 @@ public class ItemRegistryPopulator {
                     .storedItems(new StoredItemMappings(javaItemToMapping))
                     .javaOnlyItems(javaOnlyItems)
                     .buckets(buckets)
-                    .carpets(carpets)
                     .componentItemData(componentItemData)
                     .lodestoneCompass(lodestoneEntry)
                     .customIdMappings(customIdMappings)

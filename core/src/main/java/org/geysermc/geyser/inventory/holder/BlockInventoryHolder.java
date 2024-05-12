@@ -78,7 +78,7 @@ public class BlockInventoryHolder extends InventoryHolder {
         // First, verify that the player's position has not changed, so we don't try to select a block wildly out of range.
         // (This could be a virtual inventory that the player is opening)
         if (checkInteractionPosition(session)) {
-            // Then, check to see if the interacted block is valid for this inventory by ensuring the block state identifier is valid
+            // Then, check to see if the interacted block is valid for this inventory by ensuring the block state entityIdentifier is valid
             // and the bedrock block is vanilla
             int javaBlockId = session.getGeyser().getWorldManager().getBlockAt(session, session.getLastInteractionBlockPosition());
             if (!BlockRegistries.CUSTOM_BLOCK_STATE_OVERRIDES.get().containsKey(javaBlockId)) {

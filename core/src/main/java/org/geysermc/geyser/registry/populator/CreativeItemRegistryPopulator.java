@@ -145,7 +145,7 @@ public class CreativeItemRegistryPopulator {
 
         ItemDefinition definition = definitions.get(identifier);
         if (definition == null) {
-            GeyserImpl.getInstance().getLogger().debug("Unknown item definition with identifier " + identifier + " when loading creative items!");
+            GeyserImpl.getInstance().getLogger().debug("Unknown item definition with entityIdentifier " + identifier + " when loading creative items!");
             return null;
         }
 

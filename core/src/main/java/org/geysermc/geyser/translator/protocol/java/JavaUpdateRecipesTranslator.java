@@ -25,15 +25,6 @@
 
 package org.geysermc.geyser.translator.protocol.java;
 
-import com.github.steveice10.mc.protocol.data.game.entity.metadata.ItemStack;
-import com.github.steveice10.mc.protocol.data.game.recipe.Ingredient;
-import com.github.steveice10.mc.protocol.data.game.recipe.Recipe;
-import com.github.steveice10.mc.protocol.data.game.recipe.RecipeType;
-import com.github.steveice10.mc.protocol.data.game.recipe.data.ShapedRecipeData;
-import com.github.steveice10.mc.protocol.data.game.recipe.data.ShapelessRecipeData;
-import com.github.steveice10.mc.protocol.data.game.recipe.data.SmithingTransformRecipeData;
-import com.github.steveice10.mc.protocol.data.game.recipe.data.StoneCuttingRecipeData;
-import com.github.steveice10.mc.protocol.packet.ingame.clientbound.ClientboundUpdateRecipesPacket;
 import it.unimi.dsi.fastutil.ints.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -48,18 +39,23 @@ import org.cloudburstmc.protocol.bedrock.data.inventory.descriptor.ItemTagDescri
 import org.cloudburstmc.protocol.bedrock.packet.CraftingDataPacket;
 import org.cloudburstmc.protocol.bedrock.packet.TrimDataPacket;
 import org.geysermc.geyser.GeyserImpl;
-import org.geysermc.geyser.inventory.recipe.GeyserRecipe;
-import org.geysermc.geyser.inventory.recipe.GeyserShapedRecipe;
-import org.geysermc.geyser.inventory.recipe.GeyserShapelessRecipe;
-import org.geysermc.geyser.inventory.recipe.GeyserStonecutterData;
-import org.geysermc.geyser.inventory.recipe.TrimRecipe;
+import org.geysermc.geyser.inventory.recipe.*;
 import org.geysermc.geyser.registry.Registries;
 import org.geysermc.geyser.registry.type.ItemMapping;
 import org.geysermc.geyser.session.GeyserSession;
-import org.geysermc.geyser.translator.inventory.item.ItemTranslator;
+import org.geysermc.geyser.translator.item.ItemTranslator;
 import org.geysermc.geyser.translator.protocol.PacketTranslator;
 import org.geysermc.geyser.translator.protocol.Translator;
 import org.geysermc.geyser.util.InventoryUtils;
+import org.geysermc.mcprotocollib.protocol.data.game.item.ItemStack;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.Ingredient;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.Recipe;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.RecipeType;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.data.ShapedRecipeData;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.data.ShapelessRecipeData;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.data.SmithingTransformRecipeData;
+import org.geysermc.mcprotocollib.protocol.data.game.recipe.data.StoneCuttingRecipeData;
+import org.geysermc.mcprotocollib.protocol.packet.ingame.clientbound.ClientboundUpdateRecipesPacket;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -231,7 +227,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
 
         Int2ObjectMap<GeyserStonecutterData> stonecutterRecipeMap = new Int2ObjectOpenHashMap<>();
         for (Int2ObjectMap.Entry<List<StoneCuttingRecipeData>> data : unsortedStonecutterData.int2ObjectEntrySet()) {
-            // Sort the list by each output item's Java identifier - this is how it's sorted on Java, and therefore
+            // Sort the list by each output item's Java entityIdentifier - this is how it's sorted on Java, and therefore
             // We can get the correct order for button pressing
             data.getValue().sort(Comparator.comparing((stoneCuttingRecipeData ->
                     Registries.JAVA_ITEMS.get().get(stoneCuttingRecipeData.getResult().getId())
@@ -269,8 +265,8 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
         if (sendTrimRecipes) {
             // BDS sends armor trim templates and materials before the CraftingDataPacket
             TrimDataPacket trimDataPacket = new TrimDataPacket();
-            trimDataPacket.getPatterns().addAll(TrimRecipe.PATTERNS);
-            trimDataPacket.getMaterials().addAll(TrimRecipe.MATERIALS);
+            trimDataPacket.getPatterns().addAll(session.getRegistryCache().trimPatterns().values());
+            trimDataPacket.getMaterials().addAll(session.getRegistryCache().trimMaterials().values());
             session.sendUpstreamPacket(trimDataPacket);
 
             // Identical smithing_trim recipe sent by BDS that uses tag-descriptors, as the client seems to ignore the
@@ -306,7 +302,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
         }
         List<String> bedrockRecipeIDs = new ArrayList<>();
 
-        // defined in the recipes.json mappings file: Only tipped arrows use shaped recipes, we need the cast for the identifier
+        // defined in the recipes.json mappings file: Only tipped arrows use shaped recipes, we need the cast for the entityIdentifier
         if (recipe.getType() == RecipeType.CRAFTING_SPECIAL_TIPPEDARROW) {
             for (RecipeData data : craftingData) {
                 bedrockRecipeIDs.add(((org.cloudburstmc.protocol.bedrock.data.inventory.crafting.recipe.ShapedRecipeData) data).getId());
@@ -442,7 +438,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
         if (bedrockDefinition != null) {
             return ItemDescriptorWithCount.fromItem(ItemData.builder().definition(bedrockDefinition).count(1).build());
         }
-        GeyserImpl.getInstance().getLogger().debug("Unable to find item with identifier " + bedrockId);
+        GeyserImpl.getInstance().getLogger().debug("Unable to find item with entityIdentifier " + bedrockId);
         return ItemDescriptorWithCount.EMPTY;
     }
 }
