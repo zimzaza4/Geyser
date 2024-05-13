@@ -227,7 +227,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
 
         Int2ObjectMap<GeyserStonecutterData> stonecutterRecipeMap = new Int2ObjectOpenHashMap<>();
         for (Int2ObjectMap.Entry<List<StoneCuttingRecipeData>> data : unsortedStonecutterData.int2ObjectEntrySet()) {
-            // Sort the list by each output item's Java entityIdentifier - this is how it's sorted on Java, and therefore
+            // Sort the list by each output item's Java identifier - this is how it's sorted on Java, and therefore
             // We can get the correct order for button pressing
             data.getValue().sort(Comparator.comparing((stoneCuttingRecipeData ->
                     Registries.JAVA_ITEMS.get().get(stoneCuttingRecipeData.getResult().getId())
@@ -302,7 +302,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
         }
         List<String> bedrockRecipeIDs = new ArrayList<>();
 
-        // defined in the recipes.json mappings file: Only tipped arrows use shaped recipes, we need the cast for the entityIdentifier
+        // defined in the recipes.json mappings file: Only tipped arrows use shaped recipes, we need the cast for the identifier
         if (recipe.getType() == RecipeType.CRAFTING_SPECIAL_TIPPEDARROW) {
             for (RecipeData data : craftingData) {
                 bedrockRecipeIDs.add(((org.cloudburstmc.protocol.bedrock.data.inventory.crafting.recipe.ShapedRecipeData) data).getId());
@@ -438,7 +438,7 @@ public class JavaUpdateRecipesTranslator extends PacketTranslator<ClientboundUpd
         if (bedrockDefinition != null) {
             return ItemDescriptorWithCount.fromItem(ItemData.builder().definition(bedrockDefinition).count(1).build());
         }
-        GeyserImpl.getInstance().getLogger().debug("Unable to find item with entityIdentifier " + bedrockId);
+        GeyserImpl.getInstance().getLogger().debug("Unable to find item with identifier " + bedrockId);
         return ItemDescriptorWithCount.EMPTY;
     }
 }

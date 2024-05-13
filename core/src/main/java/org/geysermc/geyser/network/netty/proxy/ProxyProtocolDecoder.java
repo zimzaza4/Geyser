@@ -294,7 +294,7 @@ public final class ProxyProtocolDecoder {
         }
 
         if (!"PROXY".equals(parts[0])) {
-            throw new HAProxyProtocolException("unknown entityIdentifier: " + parts[0]);
+            throw new HAProxyProtocolException("unknown identifier: " + parts[0]);
         }
 
         HAProxyProxiedProtocol protAndFam;

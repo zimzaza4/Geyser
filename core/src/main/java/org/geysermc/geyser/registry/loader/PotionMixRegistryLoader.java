@@ -117,7 +117,7 @@ public class PotionMixRegistryLoader implements RegistryLoader<Object, Int2Objec
     private static ItemMapping getNonNull(ItemMappings mappings, Item javaItem) {
         ItemMapping itemMapping = mappings.getMapping(javaItem);
         if (itemMapping == null)
-            throw new NullPointerException("No item entry exists for java entityIdentifier: " + javaItem.javaIdentifier());
+            throw new NullPointerException("No item entry exists for java identifier: " + javaItem.javaIdentifier());
 
         return itemMapping;
     }

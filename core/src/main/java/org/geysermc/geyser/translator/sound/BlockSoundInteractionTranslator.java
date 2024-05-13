@@ -45,10 +45,10 @@ public interface BlockSoundInteractionTranslator extends SoundInteractionTransla
      *
      * @param session the session interacting with the block
      * @param position the position of the block
-     * @param identifier the entityIdentifier of the block
+     * @param identifier the identifier of the block
      */
     static void handleBlockInteraction(GeyserSession session, Vector3f position, String identifier) {
-        // If we need to get the hand entityIdentifier, only get it once and save it to a variable
+        // If we need to get the hand identifier, only get it once and save it to a variable
         String handIdentifier = null;
 
         for (Map.Entry<SoundTranslator, SoundInteractionTranslator<?>> interactionEntry : Registries.SOUND_TRANSLATORS.get().entrySet()) {

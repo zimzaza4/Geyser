@@ -79,7 +79,7 @@ public class ItemMappings implements DefinitionRegistry<ItemDefinition> {
      * Gets an {@link ItemMapping} from the given {@link ItemStack}.
      *
      * @param itemStack the itemstack
-     * @return an item entry from the given java edition entityIdentifier
+     * @return an item entry from the given java edition identifier
      */
     @NonNull
     public ItemMapping getMapping(@NonNull ItemStack itemStack) {
@@ -91,7 +91,7 @@ public class ItemMappings implements DefinitionRegistry<ItemDefinition> {
      * Edition id.
      *
      * @param javaId the id
-     * @return an item entry from the given java edition entityIdentifier
+     * @return an item entry from the given java edition identifier
      */
     @NonNull
     public ItemMapping getMapping(int javaId) {
@@ -105,10 +105,10 @@ public class ItemMappings implements DefinitionRegistry<ItemDefinition> {
 
     /**
      * Gets an {@link ItemMapping} from the given Minecraft: Java Edition
-     * block state entityIdentifier.
+     * block state identifier.
      *
-     * @param javaIdentifier the block state entityIdentifier
-     * @return an item entry from the given java edition entityIdentifier
+     * @param javaIdentifier the block state identifier
+     * @return an item entry from the given java edition identifier
      */
     @Nullable
     public ItemMapping getMapping(String javaIdentifier) {

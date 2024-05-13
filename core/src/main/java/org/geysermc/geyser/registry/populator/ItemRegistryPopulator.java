@@ -250,7 +250,7 @@ public class ItemRegistryPopulator {
                         // Straight from BDS is our best chance of getting an item that doesn't run into issues
                         bedrockBlock = blockOverride;
                     } else {
-                        // Try to get an example block runtime ID from the creative contents packet, for Bedrock entityIdentifier obtaining
+                        // Try to get an example block runtime ID from the creative contents packet, for Bedrock identifier obtaining
                         int aValidBedrockBlockId = blacklistedIdentifiers.getOrDefault(bedrockIdentifier, customBlockItemOverride != null ? customBlockItemOverride.getRuntimeId() : -1);
                         if (aValidBedrockBlockId == -1 && customBlockItemOverride == null) {
                             // Fallback

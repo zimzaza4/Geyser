@@ -74,7 +74,7 @@ public class EnchantmentRegistryLoader implements RegistryLoader<String, Map<Jav
                 if (item != null) {
                     validItems.add(item.javaId());
                 } else {
-                    throw new NullPointerException("No item entry exists for java entityIdentifier: " + javaIdentifier);
+                    throw new NullPointerException("No item entry exists for java identifier: " + javaIdentifier);
                 }
             }
 

@@ -57,14 +57,14 @@ public class BlockMapping {
     boolean isNonVanilla;
 
     /**
-     * @return the entityIdentifier without the additional block states
+     * @return the identifier without the additional block states
      */
     public String getCleanJavaIdentifier() {
         return BlockUtils.getCleanIdentifier(javaIdentifier);
     }
 
     /**
-     * @return the corresponding Java entityIdentifier for this item
+     * @return the corresponding Java identifier for this item
      */
     public String getItemIdentifier() {
         if (pickItem != null && !pickItem.equals("minecraft:air")) {
@@ -79,7 +79,7 @@ public class BlockMapping {
      * Get the item a Java client would receive when pressing
      * the Pick Block key on a specific Java block state.
      *
-     * @return The Java entityIdentifier of the item
+     * @return The Java identifier of the item
      */
     public String getPickItem() {
         if (pickItem != null) {

@@ -229,9 +229,9 @@ public class MappingsReader_v1 extends MappingsReader {
     }
 
     /**
-     * Read a block mapping entry from a JSON node and Java entityIdentifier
+     * Read a block mapping entry from a JSON node and Java identifier
      * 
-     * @param identifier The Java entityIdentifier of the block
+     * @param identifier The Java identifier of the block
      * @param node The {@link JsonNode} containing the block mapping entry
      * @return The {@link CustomBlockMapping} record to be read by {@link org.geysermc.geyser.registry.populator.CustomBlockRegistryPopulator}
      * @throws InvalidCustomMappingsFileException If the JSON node is invalid
@@ -368,10 +368,10 @@ public class MappingsReader_v1 extends MappingsReader {
     }
 
     /**
-     * Creates a {@link CustomBlockComponents} object for the passed state override or base block node, Java block state entityIdentifier, and custom block name
+     * Creates a {@link CustomBlockComponents} object for the passed state override or base block node, Java block state identifier, and custom block name
      * 
      * @param node the state override or base block {@link JsonNode}
-     * @param stateKey the Java block state entityIdentifier
+     * @param stateKey the Java block state identifier
      * @param name the name of the custom block
      * @return the {@link CustomBlockComponents} object
      */
@@ -418,8 +418,8 @@ public class MappingsReader_v1 extends MappingsReader {
             } else {
                 JsonNode geometry = node.get("geometry");
                 GeometryComponent.Builder geometryBuilder = new GeyserGeometryComponent.Builder();
-                if (geometry.has("entityIdentifier")) {
-                    geometryBuilder.identifier(geometry.get("entityIdentifier").asText());
+                if (geometry.has("identifier")) {
+                    geometryBuilder.identifier(geometry.get("identifier").asText());
                 }
                 if (geometry.has("bone_visibility")) {
                     JsonNode boneVisibility = geometry.get("bone_visibility");
@@ -728,9 +728,9 @@ public class MappingsReader_v1 extends MappingsReader {
     }
 
     /**
-     * Splits the given java state entityIdentifier into an array of property=value pairs
+     * Splits the given java state identifier into an array of property=value pairs
      * 
-     * @param state the java state entityIdentifier
+     * @param state the java state identifier
      * @return the array of property=value pairs
      */
     private String[] splitStateString(String state) {

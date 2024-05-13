@@ -309,7 +309,7 @@ public class InventoryUtils {
      * <p>
      * This attempts to mimic Java Edition behavior as best as it can.
      * @param session the Bedrock client's session
-     * @param itemName the Java entityIdentifier of the item to search/select
+     * @param itemName the Java identifier of the item to search/select
      */
     public static void findOrCreateItem(GeyserSession session, String itemName) {
         // Get the inventory to choose a slot to pick

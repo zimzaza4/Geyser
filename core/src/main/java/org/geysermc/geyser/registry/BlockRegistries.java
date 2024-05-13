@@ -80,7 +80,7 @@ public class BlockRegistries {
     public static final MappedRegistry<String, Integer, Object2IntMap<String>> JAVA_IDENTIFIER_TO_ID = MappedRegistry.create(RegistryLoaders.empty(Object2IntOpenHashMap::new));
 
     /**
-     * A registry which stores unique Java IDs to its clean entityIdentifier
+     * A registry which stores unique Java IDs to its clean identifier
      * This is used in the statistics form.
      */
     public static final ArrayRegistry<String> CLEAN_JAVA_IDENTIFIERS = ArrayRegistry.create(RegistryLoaders.uninitialized());

@@ -63,7 +63,7 @@ public class JavaBlockUpdateTranslator extends PacketTranslator<ClientboundBlock
             return false;
         }
 
-        // We need to check if the entityIdentifier is the same, else a packet with the sound of what the
+        // We need to check if the identifier is the same, else a packet with the sound of what the
         // player has in their hand is played, despite if the block is being placed or not
         boolean contains = false;
         String identifier = BlockRegistries.JAVA_BLOCKS.get(packet.getEntry().getBlock()).getItemIdentifier();

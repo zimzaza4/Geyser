@@ -150,7 +150,7 @@ public final class SoundUtils {
                 int javaId = BlockRegistries.JAVA_IDENTIFIER_TO_ID.get().getOrDefault(soundMapping.getIdentifier(), BlockStateValues.JAVA_AIR_ID);
                 soundPacket.setExtraData(session.getBlockMappings().getBedrockBlockId(javaId));
             } else {
-                session.getGeyser().getLogger().debug("PLACE sound mapping entityIdentifier was invalid! Please report: " + soundMapping);
+                session.getGeyser().getLogger().debug("PLACE sound mapping identifier was invalid! Please report: " + soundMapping);
             }
             soundPacket.setIdentifier(":");
         } else {

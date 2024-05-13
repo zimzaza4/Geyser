@@ -197,14 +197,14 @@ public final class BlockUtils {
     }
 
     /**
-     * Taking in a complete Java block state entityIdentifier, output just the block ID of this block state without the states.
+     * Taking in a complete Java block state identifier, output just the block ID of this block state without the states.
      * Examples:
      * minecraft:oak_log[axis=x] = minecraft:oak_log
      * minecraft:stone_brick_wall[east=low,north=tall,south=none,up=true,waterlogged=false,west=tall] = minecraft:stone_brick_wall
      * minecraft:stone = minecraft:stone
      *
-     * @param fullJavaIdentifier a full Java block entityIdentifier, with possible block states.
-     * @return a clean entityIdentifier in the format of minecraft:block
+     * @param fullJavaIdentifier a full Java block identifier, with possible block states.
+     * @return a clean identifier in the format of minecraft:block
      */
     public static String getCleanIdentifier(String fullJavaIdentifier) {
         int stateIndex = fullJavaIdentifier.indexOf('[');

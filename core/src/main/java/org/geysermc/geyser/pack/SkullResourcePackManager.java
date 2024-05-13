@@ -239,7 +239,7 @@ public class SkullResourcePackManager {
     }
 
     private static String fillAttachableJson(String template, CustomSkull skull) {
-        return template.replace("${entityIdentifier}", skull.getCustomBlockData().identifier())
+        return template.replace("${identifier}", skull.getCustomBlockData().identifier())
                 .replace("${texture}", truncateHash(skull.getSkinHash()));
     }
 

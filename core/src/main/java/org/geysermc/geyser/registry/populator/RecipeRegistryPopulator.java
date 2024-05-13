@@ -130,7 +130,7 @@ public class RecipeRegistryPopulator {
         int netId = ++LAST_RECIPE_NET_ID;
         int type = node.get("bedrockRecipeType").asInt();
         JsonNode outputNode = node.get("output");
-        ItemMapping outputEntry = mappings.getMapping(outputNode.get("entityIdentifier").asText());
+        ItemMapping outputEntry = mappings.getMapping(outputNode.get("identifier").asText());
         ItemData output = getBedrockItemFromIdentifierJson(outputEntry, outputNode);
         UUID uuid = UUID.randomUUID();
         if (type == 1) {
@@ -147,7 +147,7 @@ public class RecipeRegistryPopulator {
             while (iterator.hasNext()) {
                 Map.Entry<String, JsonNode> entry = iterator.next();
                 JsonNode inputNode = entry.getValue();
-                ItemMapping inputEntry = mappings.getMapping(inputNode.get("entityIdentifier").asText());
+                ItemMapping inputEntry = mappings.getMapping(inputNode.get("identifier").asText());
                 letterToRecipe.put(entry.getKey(), getBedrockItemFromIdentifierJson(inputEntry, inputNode));
             }
 
@@ -177,7 +177,7 @@ public class RecipeRegistryPopulator {
         }
         List<ItemData> inputs = new ObjectArrayList<>();
         for (JsonNode entry : node.get("inputs")) {
-            ItemMapping inputEntry = mappings.getMapping(entry.get("entityIdentifier").asText());
+            ItemMapping inputEntry = mappings.getMapping(entry.get("identifier").asText());
             inputs.add(getBedrockItemFromIdentifierJson(inputEntry, entry));
         }
 

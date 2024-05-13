@@ -334,14 +334,14 @@ public final class ItemTranslator {
         if (predicates.size() > 0) {
             String[] canModifyBedrock = new String[predicates.size()];
             for (int i = 0; i < canModifyBedrock.length; i++) {
-                // Get the Java entityIdentifier of the block that can be placed
+                // Get the Java identifier of the block that can be placed
                 String location = predicates.get(i).getLocation();
                 if (location == null) {
                     canModifyBedrock[i] = ""; // So it'll serialize
                     continue; // ???
                 }
                 String block = Identifier.formalize(location);
-                // Get the Bedrock entityIdentifier of the item and replace it.
+                // Get the Bedrock identifier of the item and replace it.
                 // This will unfortunately be limited - for example, beds and banners will be translated weirdly
                 canModifyBedrock[i] = BlockRegistries.JAVA_TO_BEDROCK_IDENTIFIERS.getOrDefault(block, block).replace("minecraft:", "");
             }

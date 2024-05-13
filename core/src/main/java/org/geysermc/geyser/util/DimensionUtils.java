@@ -44,15 +44,15 @@ public class DimensionUtils {
     public static final String BEDROCK_FOG_HELL = "minecraft:fog_hell";
 
     /**
-     * String reference to vanilla Java overworld dimension entityIdentifier
+     * String reference to vanilla Java overworld dimension identifier
      */
     public static final int OVERWORLD = 0;
     /**
-     * String reference to vanilla Java nether dimension entityIdentifier
+     * String reference to vanilla Java nether dimension identifier
      */
     public static final int NETHER = 3;
     /**
-     * String reference to vanilla Java end dimension entityIdentifier
+     * String reference to vanilla Java end dimension identifier
      */
     public static final int THE_END = 2;
 

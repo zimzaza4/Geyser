@@ -126,7 +126,7 @@ public class CustomBlockRegistryPopulator {
                     throw new IllegalArgumentException("Custom block name must have at least 1 character.");
                 }
                 if (!customBlockIdentifiers.add(customBlockData.identifier())) {
-                    throw new IllegalArgumentException("Another custom block was already registered under the entityIdentifier: " + customBlockData.identifier());
+                    throw new IllegalArgumentException("Another custom block was already registered under the identifier: " + customBlockData.identifier());
                 }
                 if (Character.isDigit(customBlockData.name().charAt(0))) {
                     throw new IllegalArgumentException("Custom block can not start with a digit. Name: " + customBlockData.name());
@@ -365,7 +365,7 @@ public class CustomBlockRegistryPopulator {
         if (components.geometry() != null) {
             NbtMapBuilder geometryBuilder = NbtMap.builder();
             if (protocolVersion >= Bedrock_v594.CODEC.getProtocolVersion()) {
-                geometryBuilder.putString("entityIdentifier", components.geometry().identifier());
+                geometryBuilder.putString("identifier", components.geometry().identifier());
                 if (components.geometry().boneVisibility() != null) {
                     NbtMapBuilder boneVisibilityBuilder = NbtMap.builder();
                     components.geometry().boneVisibility().entrySet().forEach(

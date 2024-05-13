@@ -380,7 +380,7 @@ public class GeyserSession implements GeyserConnection, GeyserCommandSource {
     private Entity mouseoverEntity;
 
     /**
-     * Stores all Java recipes by recipe entityIdentifier, and matches them to all possible Bedrock recipe identifiers.
+     * Stores all Java recipes by recipe identifier, and matches them to all possible Bedrock recipe identifiers.
      * They are not 1:1, since Bedrock can have multiple recipes for the same Java recipe.
      */
     @Setter
@@ -392,7 +392,7 @@ public class GeyserSession implements GeyserConnection, GeyserCommandSource {
 
     /**
      * Saves a list of all stonecutter recipes, for use in a stonecutter inventory.
-     * The key is the Java ID of the item; the values are all the possible outputs' Java IDs sorted by their string entityIdentifier
+     * The key is the Java ID of the item; the values are all the possible outputs' Java IDs sorted by their string identifier
      */
     @Setter
     private Int2ObjectMap<GeyserStonecutterData> stonecutterRecipes;

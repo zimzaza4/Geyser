@@ -41,7 +41,7 @@ public abstract class AbstractBlockInventoryTranslator extends BaseInventoryTran
 
     /**
      * @param size the amount of slots that the inventory adds alongside the base inventory slots
-     * @param javaBlockIdentifier a Java block entityIdentifier that is used as a temporary block
+     * @param javaBlockIdentifier a Java block identifier that is used as a temporary block
      * @param containerType the container type of this inventory
      * @param updater updater
      * @param additionalValidBlocks any other block identifiers that can safely use this inventory without a fake block

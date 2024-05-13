@@ -66,7 +66,7 @@ public class SoundEventsRegistryLoader extends EffectRegistryLoader<Map<LevelEve
                     case "soundEvent" -> {
                         javaEffect = org.geysermc.mcprotocollib.protocol.data.game.level.event.LevelEventType.valueOf(entry.getKey());
                         org.cloudburstmc.protocol.bedrock.data.SoundEvent soundEvent = org.cloudburstmc.protocol.bedrock.data.SoundEvent.valueOf(node.get("name").asText());
-                        String identifier = node.has("entityIdentifier") ? node.get("entityIdentifier").asText() : "";
+                        String identifier = node.has("identifier") ? node.get("identifier").asText() : "";
                         int extraData = node.has("extraData") ? node.get("extraData").intValue() : -1;
                         transformer = new SoundEventEventTranslator(soundEvent, identifier, extraData);
                     }
