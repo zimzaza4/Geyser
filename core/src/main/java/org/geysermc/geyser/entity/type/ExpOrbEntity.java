@@ -27,7 +27,7 @@ package org.geysermc.geyser.entity.type;
 
 import org.cloudburstmc.math.vector.Vector3f;
 import org.cloudburstmc.protocol.bedrock.data.entity.EntityDataTypes;
-import org.geysermc.geyser.entity.EntityDefinition;
+import org.geysermc.geyser.entity.GeyserEntityDefinition;
 import org.geysermc.geyser.entity.EntityDefinitions;
 import org.geysermc.geyser.session.GeyserSession;
 
@@ -35,7 +35,7 @@ import java.util.UUID;
 
 public class ExpOrbEntity extends Entity {
 
-    public ExpOrbEntity(GeyserSession session, int entityId, long geyserId, UUID uuid, EntityDefinition<?> entityDefinition, Vector3f position, Vector3f motion, float yaw, float pitch, float headYaw) {
+    public ExpOrbEntity(GeyserSession session, int entityId, long geyserId, UUID uuid, GeyserEntityDefinition<?> entityDefinition, Vector3f position, Vector3f motion, float yaw, float pitch, float headYaw) {
         this(session, 1, entityId, geyserId, position);
     }
 
