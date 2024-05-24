@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2024 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,25 +23,18 @@
  * @link https://github.com/GeyserMC/Geyser
  */
 
-package org.geysermc.geyser.entity.type;
+package org.geysermc.geyser.api.skin;
 
-import org.cloudburstmc.math.vector.Vector3f;
-import org.cloudburstmc.protocol.bedrock.data.entity.EntityDataTypes;
-import org.geysermc.geyser.entity.EntityDefinition;
-import org.geysermc.geyser.entity.EntityDefinitions;
-import org.geysermc.geyser.session.GeyserSession;
-
-import java.util.UUID;
-
-public class ExpOrbEntity extends Entity {
-
-    public ExpOrbEntity(GeyserSession session, int entityId, long geyserId, UUID uuid, EntityDefinition<?> entityDefinition, Vector3f position, Vector3f motion, float yaw, float pitch, float headYaw) {
-        this(session, 1, entityId, geyserId, position);
-    }
-
-    public ExpOrbEntity(GeyserSession session, int amount, int entityId, long geyserId, Vector3f position) {
-        super(session, entityId, geyserId, null, EntityDefinitions.EXPERIENCE_ORB, position, Vector3f.ZERO, 0, 0, 0);
-
-        this.dirtyMetadata.put(EntityDataTypes.TRADE_EXPERIENCE, amount);
+/**
+ * Represents a cape.
+ *
+ * @param textureUrl The URL of the cape texture
+ * @param capeId The ID of the cape
+ * @param capeData The raw cape image data in ARGB format
+ * @param failed If the cape failed to load, this is for things like fallback capes
+ */
+public record Cape(String textureUrl, String capeId, byte[] capeData, boolean failed) {
+    public Cape(String textureUrl, String capeId, byte[] capeData) {
+        this(textureUrl, capeId, capeData, false);
     }
 }
